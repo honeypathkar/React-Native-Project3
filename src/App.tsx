@@ -10,12 +10,18 @@ import {
   View,
 } from 'react-native';
 import type {PropsWithChildren} from 'react';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import One from '../assests/One.png';
 import Two from '../assests/Two.png';
 import Three from '../assests/Three.png';
 import Four from '../assests/Four.png';
 import Five from '../assests/Five.png';
 import Six from '../assests/Six.png';
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 type DiceProps = PropsWithChildren<{
   imageUrl: ImageSourcePropType;
@@ -60,6 +66,7 @@ export default function App(): JSX.Element {
         setDiceImage(One);
         break;
     }
+    ReactNativeHapticFeedback.trigger('impactHeavy', options);
   };
 
   return (
@@ -83,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
-    paddingTop: 40,
+    paddingTop: 70,
   },
   container: {
     flex: 1,
@@ -102,5 +109,6 @@ const styles = StyleSheet.create({
     color: 'white',
     borderRadius: 5,
     cursor: 'pointer',
+    marginTop: -50
   },
 });
