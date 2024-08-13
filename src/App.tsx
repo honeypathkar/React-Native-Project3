@@ -1,26 +1,77 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
+  ImageSourcePropType,
+  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-const One = require('../assests/One.png');
+import type {PropsWithChildren} from 'react';
+import One from '../assests/One.png';
+import Two from '../assests/Two.png';
+import Three from '../assests/Three.png';
+import Four from '../assests/Four.png';
+import Five from '../assests/Five.png';
+import Six from '../assests/Six.png';
 
-export default function App() {
+type DiceProps = PropsWithChildren<{
+  imageUrl: ImageSourcePropType;
+}>;
+
+const Dice = ({imageUrl}: DiceProps): JSX.Element => {
+  return (
+    <View style={styles.diceContainer}>
+      <Image
+        source={imageUrl} // Directly pass the imported image
+        style={{width: 200, height: 200}} // Add styles to define the size of the image
+      />
+    </View>
+  );
+};
+
+export default function App(): JSX.Element {
+  const [diceImage, setDiceImage] = useState<ImageSourcePropType>(One);
+
+  const rollTheDice = () => {
+    let randomNumber = Math.floor(Math.random() * 6) + 1;
+    switch (randomNumber) {
+      case 1:
+        setDiceImage(One);
+        break;
+      case 2:
+        setDiceImage(Two);
+        break;
+      case 3:
+        setDiceImage(Three);
+        break;
+      case 4:
+        setDiceImage(Four);
+        break;
+      case 5:
+        setDiceImage(Five);
+        break;
+      case 6:
+        setDiceImage(Six);
+        break;
+      default:
+        setDiceImage(One);
+        break;
+    }
+  };
+
   return (
     <>
       <StatusBar backgroundColor={'black'} />
       <View style={styles.container}>
         <Text style={styles.headingText}>Roll the Dice</Text>
-        <View style={styles.diceContainer}>
-          <Image
-            source={One} // Directly pass the imported image
-            style={{width: 150, height: 150}} // Add styles to define the size of the image
-          />
-          <Text style={styles.btn}>Click Me</Text>
+        <Dice imageUrl={diceImage} />
+        <View>
+          <Pressable onPress={rollTheDice}>
+            <Text style={styles.btn}>Click Me</Text>
+          </Pressable>
         </View>
       </View>
     </>
@@ -32,22 +83,22 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
+    paddingTop: 40,
   },
   container: {
     flex: 1,
     textAlign: 'center',
     alignItems: 'center',
-    paddingVertical: 50,
   },
   diceContainer: {
-    flex: 1,
+    paddingVertical: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
   btn: {
     backgroundColor: 'black',
-    paddingVertical: 6,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     color: 'white',
     borderRadius: 5,
     cursor: 'pointer',
